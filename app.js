@@ -49,6 +49,7 @@ const router = express.Router();
 const indexRouter = require('./index');
 const adminRouter = require('./admin');
 const skillRouter = require('./skill');
+const activityRouter = require('./activity');
 
 // 인덱스 및 포트폴리오 페이지
 app.use('/', indexRouter);
@@ -56,6 +57,8 @@ app.use('/', indexRouter);
 app.use('/admin', adminRouter);
 // 관리자 페이지 / 스킬
 app.use('/admin', skillRouter);
+// 관리자 페이지 / 활동 & 수상이력
+app.use('/admin', activityRouter);
 
 // 에러 페이지
 app.get('/error', function (req, res) {

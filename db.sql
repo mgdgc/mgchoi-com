@@ -58,5 +58,6 @@ create table
         `year` integer not null,
         `month` integer not null,
         prize varchar(20),
+        icon TINYINT not null default 0,
         touch datetime not null default now()
     );

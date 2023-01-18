@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<html lang="ko">
+
+<Head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <!--  OG Tag  -->
+    <meta property="og:title" content="최명근 | MG Choi">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://mgchoi.com/resources/img/og.png">
+    <meta property="og:description" content="iOS, Android를 사랑하는 최명근입니다.">
+    <!--  PWA  -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="MG Choi" />
+
+    <title>MG Choi</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,500" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/img/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/img/favicon/manifest.json">
+    <!--    <meta name="msapplication-TileColor" content="#ffffff">-->
+    <meta name="msapplication-TileImage" content="/img/favicon/ms-icon-144x144.png">
+    <!--    <meta name="theme-color" content="#ffffff">-->
+
+    <!--	Bootstrap	-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+    <!--  My Stylesheet  -->
+    <link rel="stylesheet" type="text/css" href="/style/r_style.css">
+
+    <!--  JQuery  -->
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+
+</Head>
+
+<body class="container r-bg-secondary">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand navbar-light fixed-top r-navbar r-bg-primary not-draggable" id="navbar">
+        <div class="container-fluid align-text-bottom">
+            <a class="navbar-brand" href="/">
+                <img src="/img/profile_small.webp" alt="" width="48" height="48" style="margin: 0;"
+                    class="d-inline-block align-text-top not-draggable-img">
+            </a>
+            <div class="collapse navbar-collapse scroll-horiz scroll-no-bar" id="navbarNav">
+                <ol class="breadcrumb my-auto align-text-middle">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Activity & Prize</li>
+                </ol>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="pt-7 container">
+        <h1>Activity</h1>
+        <form class="row g-4" action="/admin/activity" method="post">
+            <div class="col-auto">
+                <label for="activityname" class="visually-hidden">활동명</label>
+                <input type="text" class="form-control" id="activityname" placeholder="활동명" name="activityName">
+            </div>
+            <div class="col-auto">
+                <label for="startYear" class="visually-hidden">시작 년도</label>
+                <input type="number" class="form-control" id="startYear" placeholder="시작 년도" name="startYear">
+                <label for="startMonth" class="visually-hidden">시작 월</label>
+                <input type="number" class="form-control" id="startMonth" placeholder="시작 월" name="startMonth">
+            </div>
+            <div class="col-auto">
+                <label for="endYear" class="visually-hidden">종료 년도</label>
+                <input type="number" class="form-control" id="endYear" placeholder="종료 년도" name="endYear">
+                <label for="endMonth" class="visually-hidden">종료 월</label>
+                <input type="number" class="form-control" id="endMonth" placeholder="종료 월" name="endMonth">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mb-3">추가</button>
+            </div>
+        </form>
+        <div class="list-group mt-2">
+            <% for (var i=0; i < activity.length; i++) { %>
+                <li class="list-group-item">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">
+                            <a href="/admin/activity/<%= activity[i].activityId %>">
+                                <%= activity[i].activityName %>
+                            </a>
+                        </div>
+                        <a href="/admin/activity/<%= activity[i].activityId %>/touch">Touch</a>
+                        <a href="/admin/activity/<%= activity[i].activityId %>/delete">Delete</a>
+                    </div>
+                </li>
+                <% } %>
+        </div>
+
+        <hr>
+
+        <h1>Prize</h1>
+        <form class="row g-4" action="/admin/prize" method="post">
+            <div class="col-auto">
+                <label for="prizeName" class="visually-hidden">대회 이름</label>
+                <input type="text" class="form-control" id="prizeName" placeholder="대회 이름" name="prizeName" maxlength="20">
+            </div>
+            <div class="col-auto">
+                <label for="icon" class="visually-hidden">Category</label>
+                <select class="form-select" id="icon" name="icon">
+                    <option value="0" selected>🏅</option>
+                    <option value="1">🥇</option>
+                    <option value="2">🥈</option>
+                    <option value="3">🥉</option>
+                </select>
+                <label for="prize" class="visually-hidden">수상</label>
+                <input type="text" class="form-control" id="prize" placeholder="수상" name="prize" maxlength="20">
+            </div>
+            <div class="col-auto">
+                <label for="year" class="visually-hidden">수상 년도</label>
+                <input type="number" class="form-control" id="year" placeholder="수상 년도" name="year">
+                <label for="month" class="visually-hidden">수상 월</label>
+                <input type="number" class="form-control" id="month" placeholder="수상 월" name="month">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mb-3">추가</button>
+            </div>
+        </form>
+        <div class="list-group mt-2">
+            <% for (var i=0; i < prize.length; i++) { %>
+                <li class="list-group-item">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">
+                            <a href="/admin/prize/<%= prize[i].prizeId %>">
+                                <%= prize[i].prizeName %>
+                            </a>
+                        </div>
+                        <a href="/admin/prize/<%= prize[i].prizeId %>/touch">Touch</a>
+                        <a href="/admin/prize/<%= prize[i].prizeId %>/delete">Delete</a>
+                    </div>
+                </li>
+                <% } %>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="container footer mt-7">
+
+    </div>
+
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

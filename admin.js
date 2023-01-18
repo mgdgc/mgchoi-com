@@ -52,11 +52,11 @@ const adminAccount = JSON.parse(fs.readFileSync(__dirname + '/admin_auth.json'))
 // 관리자 페이지
 router.get('/', function (req, res) {
     // 로그인 확인
-    // const admin = req.session.admin;
-    // if (admin == null) {
-    //     res.redirect('/admin/login');
-    //     return;
-    // }
+    const admin = req.session.admin;
+    if (admin == null) {
+        res.redirect('/admin/login');
+        return;
+    }
     res.render('admin');
 });
 
@@ -87,15 +87,17 @@ router.post('/login', function (req, res) {
 // 프로젝트 페이지
 router.get('/category', async function (req, res) {
     // 로그인 확인
-    // const admin = req.session.admin;
-    // if (admin == null) {
-    //     res.redirect('/admin/login');
-    //     return;
-    // }
+    const admin = req.session.admin;
+    if (admin == null) {
+        res.redirect('/admin/login');
+        return;
+    }
+
     const connection = await dbPool.getConnection();
 
     const sql = 'select * from category order by touch desc;';
     const [category] = await connection.query(sql);
+
     connection.release();
 
     res.render('admin_category', { category: category });
@@ -105,36 +107,40 @@ router.get('/category', async function (req, res) {
 // 카테고리 추가
 router.post('/category', async function (req, res) {
     // 로그인 확인
-    // const admin = req.session.admin;
-    // if (admin == null) {
-    //     res.redirect('/admin/login');
-    //     return;
-    // }
+    const admin = req.session.admin;
+    if (admin == null) {
+        res.redirect('/admin/login');
+        return;
+    }
 
     const category = req.body.category;
     const connection = await dbPool.getConnection();
 
     const sql = 'insert into category (title) values (?);';
     await connection.query(sql, [category]);
+
     connection.release();
+
     res.redirect('/admin/category');
 });
 
 // 카테고리 터치
 router.get('/category/:catId/touch', async function (req, res) {
     // 로그인 확인
-    // const admin = req.session.admin;
-    // if (admin == null) {
-    //     res.redirect('/admin/login');
-    //     return;
-    // }
+    const admin = req.session.admin;
+    if (admin == null) {
+        res.redirect('/admin/login');
+        return;
+    }
 
     const catId = req.params.catId;
     const connection = await dbPool.getConnection();
 
     const sql = 'update category set touch = now() where catId = ?;';
     await connection.query(sql, [catId]);
+
     connection.release();
+
     res.redirect('/admin/category');
 });
 
@@ -142,17 +148,19 @@ router.get('/category/:catId/touch', async function (req, res) {
 // 카테고리 터치
 router.get('/category/:catId/delete', async function (req, res) {
     // 로그인 확인
-    // const admin = req.session.admin;
-    // if (admin == null) {
-    //     res.redirect('/admin/login');
-    //     return;
-    // }
+    const admin = req.session.admin;
+    if (admin == null) {
+        res.redirect('/admin/login');
+        return;
+    }
 
     const catId = req.params.catId;
     
     const connection = await dbPool.getConnection();
     const sql = 'delete from category where catId = ?;';
     await connection.query(sql, [catId]);
+
+    connection.release();
 
     res.redirect('/admin/category');
 
@@ -161,17 +169,18 @@ router.get('/category/:catId/delete', async function (req, res) {
 // 프로젝트 목록
 router.get('/category/:catId', async function (req, res) {
     // 로그인 확인
-    // const admin = req.session.admin;
-    // if (admin == null) {
-    //     res.redirect('/admin/login');
-    //     return;
-    // }
+    const admin = req.session.admin;
+    if (admin == null) {
+        res.redirect('/admin/login');
+        return;
+    }
 
     const catId = req.params.catId;
     const connection = await dbPool.getConnection();
 
     const sql = 'select * from project where catId = ?;';
     const [projects] = await connection.query(sql, [catId]);
+
     connection.release();
 
     res.render('admin_project', { catId: catId, projects: projects });
@@ -180,11 +189,12 @@ router.get('/category/:catId', async function (req, res) {
 // 프로젝트 작성
 router.get('/category/:catId/write', async function (req, res) {
     // 로그인 확인
-    // const admin = req.session.admin;
-    // if (admin == null) {
-    //     res.redirect('/admin/login');
-    //     return;
-    // }
+    const admin = req.session.admin;
+    if (admin == null) {
+        res.redirect('/admin/login');
+        return;
+    }
+
     const catId = req.params.catId;
     res.render('admin_write', { catId: catId });
 });
@@ -196,11 +206,12 @@ const fileFields = upload.fields([
 ]);
 router.post('/category/:catId/write', fileFields, async function (req, res) {
     // 로그인 확인
-    // const admin = req.session.admin;
-    // if (admin == null) {
-    //     res.redirect('/admin/login');
-    //     return;
-    // }
+    const admin = req.session.admin;
+    if (admin == null) {
+        res.redirect('/admin/login');
+        return;
+    }
+
     const catId = req.params.catId;
 
     const title = req.body.title;
@@ -215,17 +226,20 @@ router.post('/category/:catId/write', fileFields, async function (req, res) {
     const sql = 'insert into project (catId, title, `desc`, markdown, image, link, tag) values (?, ?, ?, ?, ?, ?, ?);';
     await connection.query(sql, [catId, title, desc, mdName, imageName, link, tag]);
 
+    connection.release();
+
     res.redirect('/admin/category/' + catId);
 });
 
 // 프로젝트 수정
 router.get('/project/:prjId/edit', async function (req, res) {
     // 로그인 확인
-    // const admin = req.session.admin;
-    // if (admin == null) {
-    //     res.redirect('/admin/login');
-    //     return;
-    // }
+    const admin = req.session.admin;
+    if (admin == null) {
+        res.redirect('/admin/login');
+        return;
+    }
+
     const prjId = req.params.prjId;
 
     const connection = await dbPool.getConnection();
@@ -234,22 +248,27 @@ router.get('/project/:prjId/edit', async function (req, res) {
     const catSql = 'select * from category;';
     const [category] = await connection.query(catSql);
 
+    connection.release();
+
     res.render('admin_edit', { projId: prjId, project: project[0], category: category });
 });
 
 // 프로젝트 삭제
 router.get('/project/:prjId/delete', async function (req, res) {
     // 로그인 확인
-    // const admin = req.session.admin;
-    // if (admin == null) {
-    //     res.redirect('/admin/login');
-    //     return;
-    // }
+    const admin = req.session.admin;
+    if (admin == null) {
+        res.redirect('/admin/login');
+        return;
+    }
+
     const prjId = req.params.prjId;
 
     const connection = await dbPool.getConnection();
     const sql = 'delete from project where id = ?;';
     await connection.query(sql, [prjId]);
+
+    connection.release();
 
     res.redirect('/admin/category');
 });
@@ -257,11 +276,12 @@ router.get('/project/:prjId/delete', async function (req, res) {
 // 프로젝트 수정
 router.post('/project/:prjId/edit', fileFields, async function (req, res) {
     // 로그인 확인
-    // const admin = req.session.admin;
-    // if (admin == null) {
-    //     res.redirect('/admin/login');
-    //     return;
-    // }
+    const admin = req.session.admin;
+    if (admin == null) {
+        res.redirect('/admin/login');
+        return;
+    }
+
     const prjId = req.params.prjId;
 
     const category = req.body.category;
@@ -287,6 +307,8 @@ router.post('/project/:prjId/edit', fileFields, async function (req, res) {
 
     const connection = await dbPool.getConnection();
     await connection.query(sql, values);
+
+    connection.release();
 
     res.redirect('/admin/category/' + category);
 });
