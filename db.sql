@@ -35,7 +35,7 @@ create table
         skillId integer unsigned not null primary key auto_increment,
         `group` integer unsigned not null,
         skillName varchar(20) not null,
-        icon varchar(20) unsigned not null,
+        icon varchar(20) not null,
         touch datetime not null default now(),
         foreign key (`group`) references mgchoi.skill_group (skillGroupId)
     );
