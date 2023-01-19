@@ -21,6 +21,7 @@ app.use(express.static(__dirname + '/static'));
 app.use(express.urlencoded({ extended: true }));
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
+app.disable('x-powered-by');
 
 // session 사용 및 환경설정
 const maxAge = 1000 * 60 * 30;
@@ -65,4 +66,16 @@ app.get('/error', function (req, res) {
     const message = req.query.message;
     const redirect = req.query.redirect;
     res.render('alert', { message: message, redirect: redirect });
+});
+
+app.use(function (err, req, res, next) {
+    if (err) {
+      return res.sendStatus(500);
+    }
+    next();
+});
+
+app.use(function (req, res) {
+    res.status(404).redirect('/error?message=페이지를 찾을 수 없습니다.&redirect=/');
+    res.status(500).redirect('/error?message=페이지를 찾을 수 없습니다.&redirect=/');
 });

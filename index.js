@@ -78,8 +78,25 @@ router.get('/', async function (req, res) {
 });
 
 // 프로젝트 페이지
-router.get('/project', function (req, res) {
+router.get('/project', async function (req, res) {
+    const category = req.query.category;
+    const connection = await dbPool.getConnection();
 
+    var sql = 'select * from project';
+    var where = [];
+    if (category != null) {
+        sql += ' where catId = ?';
+        where.push(category);
+    }
+    sql += ' order by touch desc;';
+    const [projects] = await connection.query(sql, where);
+
+    const catSql = 'select * from category order by touch desc;';
+    const [categories] = await connection.query(catSql);
+
+    connection.release();
+
+    res.render('projects', { category: categories, project: projects });
 });
 
 // 프로젝트 정보
@@ -92,7 +109,6 @@ router.get('/project/:prjId', async function (req, res) {
 
     connection.release();
 
-    console.log(project[0]);
     // Content markdown
     const data = fs.readFileSync(__dirname + '/uploads/markdown/' + project[0].markdown, 'utf-8');
     project[0].content = markdownIt.render(data);
