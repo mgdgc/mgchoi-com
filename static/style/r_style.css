@@ -120,6 +120,17 @@
     padding: env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left);
 }
 
+.navbar-nav .nav-link.active {
+    color: var(--text-primary) !important;
+    font-weight: 500;
+}
+
+.breadcrumb > li + li:before {
+    color: var(--text-secondary) !important;
+    content: "/ ";
+    padding: 0 5px;
+}
+
 /* Spacing */
 
 .mt-7 {
