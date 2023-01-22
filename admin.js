@@ -97,10 +97,12 @@ router.get('/category', async function (req, res) {
 
     const sql = 'select * from category order by touch desc;';
     const [category] = await connection.query(sql);
+    const prjSql = 'select * from project order by touch desc;';
+    const [projects] = await connection.query(prjSql);
 
     connection.release();
 
-    res.render('admin_category', { category: category });
+    res.render('admin_category', { category: category, projects: projects });
 
 });
 

@@ -95,6 +95,28 @@
         </div>
     </div>
 
+    <hr>
+
+    <!-- Content -->
+    <div class="pt-2 container" style="max-width: 640px;">
+        <h1 class="flex-grow-1">All Projects</h1>
+        <div class="list-group mt-2">
+            <% for (var i=0; i < projects.length; i++) { %>
+                <li class="list-group-item">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">
+                            <a href="/admin/project/<%= projects[i].id %>/edit">
+                                <%= projects[i].title %>
+                            </a>
+                        </div>
+                        <a href="/admin/project/<%= projects[i].id %>/touch">Touch</a>
+                        <a href="/admin/project/<%= projects[i].id %>/delete">Delete</a>
+                    </div>
+                </li>
+                <% } %>
+        </div>
+    </div>
+
     <!-- Footer -->
     <div class="container footer mt-7">
 
