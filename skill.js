@@ -177,6 +177,27 @@ router.post('/skill/:skillGroupId', fileFields, async function (req, res) {
 });
 
 // 스킬 삭제
+router.get('/skill/:skillGroupId/:skillId/touch', async function (req, res) {
+    // 로그인 확인
+    const admin = req.session.admin;
+    if (admin == null) {
+        res.redirect('/admin/login');
+        return;
+    }
+
+    const skillGroupId = req.params.skillGroupId;
+    const skillId = req.params.skillId;
+
+    const connection = await dbPool.getConnection();
+    const sql = 'update skill set touch = now() where skillId = ?;';
+    await connection.query(sql, [skillId]);
+
+    connection.release();
+
+    res.redirect('/admin/skill/' + skillGroupId);
+});
+
+// 스킬 삭제
 router.get('/skill/:skillGroupId/:skillId/delete', async function (req, res) {
     // 로그인 확인
     const admin = req.session.admin;

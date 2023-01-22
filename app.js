@@ -77,5 +77,8 @@ app.use(function (err, req, res, next) {
 
 app.use(function (req, res) {
     res.status(404).redirect('/error?message=페이지를 찾을 수 없습니다.&redirect=/');
+});
+
+app.use(function (req, res) {
     res.status(500).redirect('/error?message=페이지를 찾을 수 없습니다.&redirect=/');
 });

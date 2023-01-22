@@ -253,26 +253,6 @@ router.get('/project/:prjId/edit', async function (req, res) {
     res.render('admin_edit', { projId: prjId, project: project[0], category: category });
 });
 
-// 프로젝트 삭제
-router.get('/project/:prjId/delete', async function (req, res) {
-    // 로그인 확인
-    const admin = req.session.admin;
-    if (admin == null) {
-        res.redirect('/admin/login');
-        return;
-    }
-
-    const prjId = req.params.prjId;
-
-    const connection = await dbPool.getConnection();
-    const sql = 'delete from project where id = ?;';
-    await connection.query(sql, [prjId]);
-
-    connection.release();
-
-    res.redirect('/admin/category');
-});
-
 // 프로젝트 수정
 router.post('/project/:prjId/edit', fileFields, async function (req, res) {
     // 로그인 확인
@@ -311,6 +291,46 @@ router.post('/project/:prjId/edit', fileFields, async function (req, res) {
     connection.release();
 
     res.redirect('/admin/category/' + category);
+});
+
+// 프로젝트 삭제
+router.get('/project/:prjId/touch', async function (req, res) {
+    // 로그인 확인
+    const admin = req.session.admin;
+    if (admin == null) {
+        res.redirect('/admin/login');
+        return;
+    }
+
+    const prjId = req.params.prjId;
+
+    const connection = await dbPool.getConnection();
+    const sql = 'update project set touch = now() where id = ?;';
+    await connection.query(sql, [prjId]);
+
+    connection.release();
+
+    res.redirect('/admin/category');
+});
+
+// 프로젝트 터치
+router.get('/project/:prjId/delete', async function (req, res) {
+    // 로그인 확인
+    const admin = req.session.admin;
+    if (admin == null) {
+        res.redirect('/admin/login');
+        return;
+    }
+
+    const prjId = req.params.prjId;
+
+    const connection = await dbPool.getConnection();
+    const sql = 'delete from project where id = ?;';
+    await connection.query(sql, [prjId]);
+
+    connection.release();
+
+    res.redirect('/admin/category');
 });
 
 // 에러 페이지로 이동

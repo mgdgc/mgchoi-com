@@ -43,7 +43,7 @@ create table
 create table
     mgchoi.activity (
         activityId integer unsigned not null primary key auto_increment,
-        activityName varchar(20) not null,
+        activityName varchar(50) not null,
         startYear integer not null,
         startMonth integer not null,
         endYear integer default null,
@@ -54,7 +54,7 @@ create table
 create table
     mgchoi.prize (
         prizeId integer unsigned not null primary key auto_increment,
-        prizeName varchar(20) not null,
+        prizeName varchar(50) not null,
         `year` integer not null,
         `month` integer not null,
         prize varchar(20),
