@@ -296,7 +296,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a type="button" class="btn btn-primary" id="prjModalBtnGithub">Github 보기</a>
+                    <a type="button" class="btn btn-primary" id="prjModalBtnGithub" href="" target="_blank"><span><img src="img/ic_open_in_new_window.png" width="18px" height="18px"> 프로젝트 보기</span></a>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                 </div>
             </div>
@@ -318,7 +318,7 @@
                     $("#prjModelTitle").text(data.title);
                     $("#prjModalImg").attr("src", "/image/" + data.image)
                     $("#prjModalBody").html(data.content);
-                    $("#prjModalBtnGithub").attr("href", data.github)
+                    $("#prjModalBtnGithub").attr("href", data.link)
                 },
                 error: function (xhr, status, error) {
                     $("#prjModelTitle").text("오류");
