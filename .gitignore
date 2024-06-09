@@ -3,6 +3,7 @@
 db_auth.json
 admin_auth.json
 /uploads
+server_env.json
 
 # Created by https://www.toptal.com/developers/gitignore/api/macos,windows,visualstudiocode,node
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,windows,visualstudiocode,node
